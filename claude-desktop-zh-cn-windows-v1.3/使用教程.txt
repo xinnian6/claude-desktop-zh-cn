@@ -1,0 +1,278 @@
+Claude Windows 简体中文汉化工具使用教程
+
+一、这个工具是做什么的
+
+这个工具用于把 Windows 版 Claude Desktop 的界面改成简体中文。
+
+双击“一键安装汉化.cmd”后，脚本会自动寻找本机 Claude，首次运行会备份原始文件，写入中文语言包，并把 Claude 的语言设置为简体中文。
+
+
+二、适用环境
+
+支持：
+
+Windows 10
+Windows 11
+Windows PowerShell 5.1 或更高版本
+Claude Windows 桌面版
+Microsoft Store / MSIX 安装版 Claude
+普通安装目录版 Claude
+
+不支持：
+
+macOS
+Linux
+网页版 Claude
+
+说明：
+
+如果 Claude 安装目录不可写，脚本会自动创建一份可写的 Claude 汉化副本。
+汉化副本固定放在当前用户目录下，不会每次在桌面生成新的大文件夹。
+固定位置是：
+
+%LOCALAPPDATA%\Programs\Claude-zh-CN
+
+为了兼容 Cowork，实际运行目录里仍然会保留 WindowsApps 路径段，例如：
+
+%LOCALAPPDATA%\Programs\Claude-zh-CN\WindowsApps\Claude_版本_x64__pzs8sxrjxfjjc\app
+
+不要移动或改名这个汉化副本里面的 WindowsApps、Claude_版本_x64__pzs8sxrjxfjjc、app 文件夹，否则 Cowork 可能再次提示需要重新安装。
+脚本会在当前工具文件夹里创建 Claude备份 文件夹，只保留最新一份备份。同一个 Claude 目录和同一个版本重复运行时，会复用已有备份，不会每次都重新复制大文件。
+脚本还会记录 Web 汉化缓存。语言包、手动修改翻译.json、硬编码替换表和 Claude 版本都没变时，重复运行会跳过大文件解析和前端扫描，通常只需要几秒。
+不同 Claude 版本的界面文案可能不完全一样，新增文案可能会先显示英文，但一般不会因为缺少翻译而报错。
+
+版本说明：
+
+1.3 保留 1.2 的固定安装路径和 Cowork 兼容逻辑，只优化中文翻译。
+本版吸收了其他开源汉化项目中更自然的部分设置页翻译，并继续保留本工具已经修好的网络错误、语言第一位、固定路径复制版等逻辑。
+新增了硬编码界面文本替换表，用于处理普通语言 JSON 覆盖不到的设置页标题、侧边栏按钮、遥测说明等文字。
+
+
+三、安装方法
+
+1. 先关闭正在运行的 Claude。
+2. 双击“一键安装汉化.cmd”。
+3. 如果 Windows 提示是否允许运行或请求管理员权限，请选择允许。
+4. 等待脚本运行完成。
+5. 完成后 Claude 会自动启动。
+6. 以后请从桌面或开始菜单里的 Claude zh-CN 快捷方式启动。
+
+注意：
+
+如果你原来使用的是 Microsoft Store 版 Claude，不要再从 Microsoft Store 入口启动原版。请使用脚本创建的 Claude zh-CN 快捷方式，否则可能又打开英文版。
+安装完成后，如果 Claude 已经可以正常显示中文，可以删除这个汉化工具文件夹。删除工具文件夹不会影响已经安装好的中文 Claude。
+但是删除工具文件夹后，也会一起删除 Claude备份 和 手动修改翻译.json。以后如果还想继续调整翻译或保留恢复参考，请先不要删除。
+不要删除 %LOCALAPPDATA%\Programs\Claude-zh-CN 文件夹。它是实际运行的汉化版 Claude。
+
+关于卸载原版 Claude：
+
+不建议卸载原版 Claude。
+汉化版是从原版复制出来的一份程序，安装完成后即使卸载原版，通常仍然可以从 Claude zh-CN 快捷方式继续启动。
+但是卸载原版后，官方自动更新、重新复制新版 Claude、系统注册的协议入口和部分修复能力可能受影响。
+如果以后汉化版打不开、Cowork 异常、或者想跟随 Claude 官方更新，建议先重新安装原版 Claude，再运行“一键安装汉化.cmd”。
+
+关闭到托盘后的说明：
+
+Claude 关闭窗口后可能仍在托盘运行。此时再次双击 Claude zh-CN 快捷方式，不一定会重新弹出主窗口，这是 Claude 桌面端自身的单实例行为。
+遇到这种情况，请先点击系统托盘里的 Claude 图标恢复窗口，或者从托盘菜单退出 Claude 后再重新打开。
+
+
+四、恢复英文
+
+双击“恢复英文.cmd”，然后重启 Claude。
+
+恢复英文只会把语言偏好改回英文，不会删除备份，也不会删除本机的汉化副本。
+
+
+五、自己手动修改翻译
+
+如果你觉得某句中文翻译不自然，请修改这个文件：
+
+手动修改翻译.json
+
+如果你想参考英文原文，请查看这个文件：
+
+翻译对照表.json
+
+不要直接修改 translation-memory.json。
+不要直接修改 程序文件-不要改名\web-i18n\zh-CN.json。
+不要把 翻译对照表.json 当作安装用文件，它只是给人工校对时参考英文原文。
+
+原因：
+
+translation-memory.json 是翻译记忆库，主要用于不同 Claude 版本之间自动补翻译，不适合作为普通用户手动修改入口。
+程序文件-不要改名\web-i18n\zh-CN.json 是内置语言包，更新工具时可能会被覆盖。
+手动修改翻译.json 是专门给你自己修改界面中文用的文件。
+翻译对照表.json 是参考文件，里面同时放了英文原文和当前中文，方便判断中文是否准确。
+
+
+六、手动修改翻译的格式
+
+手动修改翻译.json 里面已经放好了完整翻译表。
+
+左边是 Claude 内部使用的 key，不要改。
+右边是界面显示的中文，可以改。
+
+例如你在文件里看到：
+
+{
+  "Wb/3E+ALRw": "请检查你的网络连接、VPN 或代理设置，然后重试。",
+  "iMGl038nIV": "请求失败"
+}
+
+如果你觉得“请求失败”不好，可以只改右边：
+
+{
+  "iMGl038nIV": "请求发送失败"
+}
+
+实际文件里不需要只保留这一条，你只要搜索到对应行，改冒号右边的中文即可。
+
+修改后保存文件，再双击“一键安装汉化.cmd”，重新安装后生效。
+
+
+七、怎么找到要修改的 key
+
+最简单的方法：
+
+1. 打开“手动修改翻译.json”。
+2. 按 Ctrl + F 搜索你在 Claude 界面看到的中文。
+3. 找到后只修改冒号右边双引号里的中文。
+4. 保存文件。
+5. 双击“一键安装汉化.cmd”。
+
+如果你不确定这句中文原本是什么意思：
+
+1. 打开“翻译对照表.json”。
+2. 搜索同一句中文或同一个 key。
+3. 查看“英文原文”。
+4. 回到“手动修改翻译.json”修改中文。
+
+如果你只知道英文原文，例如：
+
+Check your internet connection, VPN, or proxy and try again.
+
+可以在下面这个文件里搜索这句英文，找到对应 key：
+
+程序文件-不要改名\web-i18n\translation-memory.json
+
+也可以在 Claude 安装目录里的英文语言包里搜索：
+
+resources\ion-dist\i18n\en-US.json
+
+找到类似这样的内容：
+
+"Wb/3E+ALRw": "Check your internet connection, VPN, or proxy and try again."
+
+那么 Wb/3E+ALRw 就是这句话的 key。
+
+然后在“手动修改翻译.json”里搜索 Wb/3E+ALRw，修改右边的中文：
+
+{
+  "Wb/3E+ALRw": "请检查你的网络连接、VPN 或代理设置，然后重试。"
+}
+
+保存后重新运行“一键安装汉化.cmd”。
+
+
+八、手动修改时不能乱改的内容
+
+不要删除或翻译这些占位符：
+
+{name}
+{attempt}
+{maxRetries}
+{seconds}
+{count}
+
+不要删除或翻译这些标签：
+
+<link>
+</link>
+<bold>
+</bold>
+
+错误示例：
+
+{
+  "t40G4sO+0U": "正在重试"
+}
+
+正确示例：
+
+{
+  "t40G4sO+0U": "正在重试（{attempt}/{maxRetries}）"
+}
+
+因为原文里有 {attempt} 和 {maxRetries}，中文里也必须保留它们。
+
+
+九、分享给别人时怎么发
+
+直接把整个“Claude简体中文汉化工具-稳定版-1.3-翻译优化版”文件夹发给别人。
+
+不要只发其中一个文件。
+不要删除“程序文件-不要改名”文件夹。
+不要改“程序文件-不要改名”这个文件夹里的文件名。
+
+别人放在桌面、下载文件夹、D 盘，或者中文路径里都可以。脚本会从它所在的位置自动查找内部文件，不要求固定路径。
+别人首次运行后，会在他自己的工具文件夹里生成 Claude备份，只保留最新一份。同版本重复运行时会复用已有备份，并复用 Web 汉化缓存。
+如果他的 Claude 安装目录不可写，汉化副本会固定安装到他自己的 %LOCALAPPDATA%\Programs\Claude-zh-CN，桌面只会创建一个 Claude zh-CN 快捷方式。
+
+GitHub 发布注意：
+
+可以上传这个工具文件夹里的脚本、语言包、手动修改翻译.json、使用教程.txt、说明.txt。
+不要上传运行后生成的 Claude备份 文件夹。
+不要上传本机生成的 Claude-zh-CN 文件夹。
+不要上传旧版本在桌面生成的 Claude-zh-CN-时间 文件夹。
+不要上传 Claude-Cowork路径测试 文件夹。
+不要上传官方 Claude 程序文件、app.asar、claude.exe 或整个 app 目录。
+
+
+十、常见问题
+
+1. 打开后还是英文
+
+请从桌面或开始菜单里的 Claude zh-CN 快捷方式启动。
+不要从 Microsoft Store 入口启动原版 Claude。
+
+2. 双击脚本没反应或失败
+
+右键“一键安装汉化.cmd”，选择“以管理员身份运行”。
+如果仍失败，把窗口里的报错复制出来排查。
+
+3. 有些地方还是英文
+
+可能是 Claude 新版本新增的文案，或者是压缩 JS 里的硬编码文案。
+先用“手动修改翻译.json”尝试覆盖。
+如果搜索不到 key，需要继续反馈具体英文原文。
+
+4. 能不能改 translation-memory.json
+
+不建议。
+普通用户只改“手动修改翻译.json”。
+translation-memory.json 是给脚本自动补翻译用的，不适合作为日常修改入口。
+
+5. Cowork 提示需要重新安装
+
+请确认你是从脚本创建的 Claude zh-CN 快捷方式启动。
+如果你手动移动了 %LOCALAPPDATA%\Programs\Claude-zh-CN 里面的 WindowsApps、Claude_版本_x64__pzs8sxrjxfjjc 或 app 文件夹，Cowork 可能会再次提示重新安装。
+重新运行“一键安装汉化.cmd”即可重新生成固定路径下的汉化副本。
+
+6. Cowork 报 HCS 0x80070005 或 rootfs.vhdx 拒绝访问
+
+如果提示“无法启动 Claude 的工作区”或 “Failed to start Claude's workspace”，并且错误里包含：
+
+HCS operation failed
+0x80070005
+rootfs.vhdx
+拒绝访问
+
+这通常是 Windows 虚拟机权限问题，不是汉化导致的。原版 Claude 也可能出现。
+解决方法：
+
+关闭 Claude。
+双击“修复Cowork工作区权限.cmd”。
+完成后重新打开 Claude，再进入 Cowork。
+
+这个修复会给 %LOCALAPPDATA%\Claude-3p\vm_bundles\claudevm.bundle 授予 Windows 虚拟机账户组访问权限，用于让 Claude 的工作区虚拟机读取 rootfs.vhdx。

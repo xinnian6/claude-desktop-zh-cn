@@ -1,0 +1,68 @@
+GitHub 发布说明
+
+推荐发布这个文件夹：
+
+Claude简体中文汉化工具-稳定版-1.3-翻译优化版
+
+可以上传的内容：
+
+一键安装汉化.cmd
+恢复英文.cmd
+手动修改翻译.json
+翻译对照表.json
+使用教程.txt
+说明.txt
+程序文件-不要改名
+.gitignore
+
+不要上传的内容：
+
+Claude备份
+Claude-zh-CN
+Claude-zh-CN-时间
+Claude-Cowork路径测试
+官方 Claude 程序目录
+claude.exe
+app.asar
+整个 app 文件夹
+
+为什么继续使用固定安装路径：
+
+Claude 的 Cowork 功能会检查当前运行路径。
+如果复制版不在包含 WindowsApps 的路径里，Cowork 会提示需要重新安装桌面应用。
+本工具不再把汉化副本放到桌面时间戳文件夹，而是固定放到当前用户目录：
+
+%LOCALAPPDATA%\Programs\Claude-zh-CN
+
+实际运行目录仍然会保留 WindowsApps 路径段：
+
+%LOCALAPPDATA%\Programs\Claude-zh-CN\WindowsApps\Claude_版本_x64__pzs8sxrjxfjjc\app
+
+这样复制版能通过 Claude 自己的现代安装路径检测，Cowork 可以正常打开。
+桌面只会创建一个 Claude zh-CN 快捷方式，不再每次生成新的 Claude-zh-CN-时间 文件夹。
+
+1.3 翻译优化：
+
+保留 1.2 的安装方式和 Cowork 兼容逻辑。
+合并了其他开源汉化项目中更自然的设置页、连接器、遥测、第三方推理配置等中文表达。
+新增 hardcoded-replacements.json，用于处理普通语言 JSON 覆盖不到的硬编码界面文字。
+没有改成直接修改原版 Claude 的方案。
+
+给用户的重点说明：
+
+安装后从桌面或开始菜单里的 Claude zh-CN 快捷方式启动。
+不要从 Microsoft Store 或原版入口启动。
+不要移动或改名 %LOCALAPPDATA%\Programs\Claude-zh-CN 里面的 WindowsApps、Claude_版本_x64__pzs8sxrjxfjjc、app 文件夹。
+不建议卸载原版 Claude。卸载后汉化副本通常还能启动，但官方更新、重新复制新版和部分系统入口可能受影响。
+如果 Cowork 再次提示重新安装，重新运行“一键安装汉化.cmd”。
+同一个 Claude 目录和同一个版本重复运行时，脚本会复用已有备份，避免每次重新复制 app.asar。
+1.3 后续优化版增加 Web 汉化缓存，重复运行会跳过未变化的大 JSON 解析和前端扫描。
+如果用户反馈 Cowork 报 HCS 0x80070005 或 rootfs.vhdx 拒绝访问，可以让用户运行“修复Cowork工作区权限.cmd”。这是 Windows 虚拟机权限问题，原版 Claude 也可能出现。
+
+发布建议：
+
+GitHub 仓库里只放工具，不放 Claude 官方程序。
+Release 可以打包成 zip。
+zip 里也不要包含 Claude备份 或 Claude-zh-CN-时间 文件夹。
+zip 里也不要包含本机生成的 Claude-zh-CN 程序副本。
+如果公开发布合并自其他项目的翻译内容，请先确认来源项目许可证允许复用，或取得作者授权。
